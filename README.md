@@ -61,10 +61,11 @@ The concert doesn’t keep a list of who’s inside — the wristband itself car
 ## 🔑 Session-Based Authentication
 Where info is stored: On the server.
 
-How it works:
-You log in → server creates a session (like a locker with your info). \
-Server gives your browser a cookie with a session ID (like a locker key). \
-Every request you make includes that cookie → server looks up your session. 
+How it works: 
+* You log in → server creates a session with a session ID and stores your info in its memory \
+* Server gives your browser a cookie with a session ID. \
+* ***Every request you make includes that cookie and is sent back to Server***. \
+* The server looks up the session ID in its memory and says, “Oh, that’s you, you’re authenticated.”
 
 Pros: Simple, widely used, works well for traditional web apps. \
 Cons: Server must keep track of every session → can be heavy for large-scale apps. \
@@ -74,15 +75,25 @@ Cons: Server must keep track of every session → can be heavy for large-scale a
 ## 🎟️ Token-Based Authentication
 Where info is stored: In the token itself (usually on the client side).
 
-How it works: \
-You log in → server gives you a token (like a wristband at a concert). \
-The token contains encoded info (like your user ID, roles, expiry time). \
-You send the token with every request → server checks if it’s valid. 
+How it works: 
+* You log in → server gives you a token (like a JWT). \
+* The token contains encoded info (like your user ID, roles, expiry time). It itself contains the proof of who you are. It gets stored in the client side (your browser). \
+* On every request, you send the token back (usually in the Authorization header). \
+* ***The server checks the token’s validity (signature, expiry, etc.) and trusts it***
 
 Pros: Stateless (server doesn’t need to remember sessions), great for APIs and mobile apps, easy to scale. \
 Cons: Tokens can get large, must be carefully secured, harder to revoke before expiry. \
 
 👉 Example: You log into a mobile app. The app stores a JWT token. Every time it calls the backend API, it sends the token. The server trusts the token without looking up a session.
+
+## ✅ Key Difference
+Sessions: Server keeps track of you in memory. Each request uses the session ID to look up your info. \
+Tokens: Server doesn’t remember you. Each request carries all the proof inside the token itself. \
+
+So both approaches authenticate on every request — ***the difference is where the “memory” lives:***
+
+Sessions → on the server. \
+Tokens → in the token itself (client side).
 
 ## Coming back to Spring Security 
 Spring Security is a powerful framework that focuses on providing both authentication and authorization to Java applications, also addressing common security vulnerabilities like CSRF (cross-site request forgery) and CORS (Cross-origin resource sharing).
