@@ -62,24 +62,26 @@ The concert doesn’t keep a list of who’s inside — the wristband itself car
 Where info is stored: On the server.
 
 How it works:
-You log in → server creates a session (like a locker with your info).
-Server gives your browser a cookie with a session ID (like a locker key).
-Every request you make includes that cookie → server looks up your session.
+You log in → server creates a session (like a locker with your info). \
+Server gives your browser a cookie with a session ID (like a locker key). \
+Every request you make includes that cookie → server looks up your session. 
 
 Pros: Simple, widely used, works well for traditional web apps. \
 Cons: Server must keep track of every session → can be heavy for large-scale apps. \
+
 👉 Example: You log into your bank website. The server remembers your account in a session, and your browser sends the session ID each time you click around.
 
 ## 🎟️ Token-Based Authentication
 Where info is stored: In the token itself (usually on the client side).
 
-How it works:
-You log in → server gives you a token (like a wristband at a concert).
-The token contains encoded info (like your user ID, roles, expiry time).
-You send the token with every request → server checks if it’s valid.
+How it works: \
+You log in → server gives you a token (like a wristband at a concert). \
+The token contains encoded info (like your user ID, roles, expiry time). \
+You send the token with every request → server checks if it’s valid. 
 
 Pros: Stateless (server doesn’t need to remember sessions), great for APIs and mobile apps, easy to scale. \
 Cons: Tokens can get large, must be carefully secured, harder to revoke before expiry. \
+
 👉 Example: You log into a mobile app. The app stores a JWT token. Every time it calls the backend API, it sends the token. The server trusts the token without looking up a session.
 
 ## Coming back to Spring Security 
@@ -91,17 +93,16 @@ Adding spring security, enables us with the security filter chain to process req
 
 ### How can you add Spring Security in the your Project
 
-Add Dependency 
+### Add Dependency 
 <img width="838" height="154" alt="image" src="https://github.com/user-attachments/assets/ce103e03-9730-415d-a90e-2e0c56d8fd15" />
 
 Spring Security provides a default form-based authentication mechanism that is enabled by default. However, it is important to note that this mechanism must be explicitly configured in the Spring Security configuration. The default configuration includes a default login page and a default success URL, it will also provide the username (user) and password (Changes everytime the applcation restarts)
-
 
 We could set a static Username and provide by making changes in Application properties
 
 <img width="475" height="139" alt="image" src="https://github.com/user-attachments/assets/75443839-24cd-4e6f-890e-423ef5d1fb89" />
 
-##What if i want to create a implementing our very own Basic authentication for my endpoints ? 
+## What if i want to create a implementing our very own Basic authentication for my endpoints ? 
 1. If you wish to create your very own autentication then for that Create a Config file and declare that as a @Configuration
 2. Create an method of FilterChain and set it as @Bean
 
