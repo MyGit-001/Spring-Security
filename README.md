@@ -118,7 +118,9 @@ Adding spring security, enables us with the security filter chain to process req
 ```
 Spring Security provides a default ***form-based authentication mechanism*** that is enabled by default. However, it is important to note that this mechanism must be explicitly configured in the Spring Security configuration. The default configuration includes a default login page and a default success URL, it will also provide the username (user) and password (Changes everytime the applcation restarts)
 
-<img width="280" height="170" alt="image" src="https://github.com/user-attachments/assets/519215f9-8fe9-4d12-876f-410f3d32f016" />
+<img width="280" height="170" alt="image" src="https://github.com/user-attachments/assets/41908c2f-7229-42f5-8bbf-74880ae0a081" /> <br>
+<img width="280" height="170" alt="image" src="https://github.com/user-attachments/assets/7a9924d9-af76-466f-bbd7-47c7ca6909a9" />
+
 
 We could set a static Username and provide by making changes in Application properties 
 ```Java
