@@ -107,11 +107,12 @@ Adding spring security, enables us with the security filter chain to process req
 ### Add Dependency 
 <img width="838" height="154" alt="image" src="https://github.com/user-attachments/assets/ce103e03-9730-415d-a90e-2e0c56d8fd15" />
 
-Spring Security provides a default form-based authentication mechanism that is enabled by default. However, it is important to note that this mechanism must be explicitly configured in the Spring Security configuration. The default configuration includes a default login page and a default success URL, it will also provide the username (user) and password (Changes everytime the applcation restarts)
+Spring Security provides a default ***form-based authentication mechanism*** that is enabled by default. However, it is important to note that this mechanism must be explicitly configured in the Spring Security configuration. The default configuration includes a default login page and a default success URL, it will also provide the username (user) and password (Changes everytime the applcation restarts)
+<img width="514" height="370" alt="image" src="https://github.com/user-attachments/assets/519215f9-8fe9-4d12-876f-410f3d32f016" />
 
 We could set a static Username and provide by making changes in Application properties
 
-<img width="475" height="139" alt="image" src="https://github.com/user-attachments/assets/75443839-24cd-4e6f-890e-423ef5d1fb89" />
+<img width="275" height="39" alt="image" src="https://github.com/user-attachments/assets/75443839-24cd-4e6f-890e-423ef5d1fb89" />
 
 ## What if i want to create a implementing our very own Basic authentication for my endpoints ? 
 1. If you wish to create your very own autentication then for that Create a Config file and declare that as a @Configuration
