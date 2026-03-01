@@ -6,23 +6,23 @@ To make it as simple as possible, think of this process like a guest trying to e
 
 ## The Login Request
 Step 1: The Knock on the Door
-The user submits their username and password. This request is intercepted by the _**Authentication Filter**_, which acts like the bouncer at the front door.
+The user submits their username and password. This request is intercepted by the `**Authentication Filter**`, which acts like the bouncer at the front door.
 
 Step 2: The Temporary ID Slip
-The Filter takes those raw credentials and packages them into an unverified _**Authentication objectr**_. Think of this as a temporary, unapproved visitor slip that just has the name and password scribbled on it.
+The Filter takes those raw credentials and packages them into an unverified `**Authentication objectr**`. Think of this as a temporary, unapproved visitor slip that just has the name and password scribbled on it.
 
 Step 3: Calling the Supervisor
-The Filter passes this temporary slip to the _**Authentication Managerr**_. The Manager is like the shift supervisor—it doesn't verify the ID itself, but it knows exactly which specialist to give it to.
+The Filter passes this temporary slip to the `**Authentication Managerr**`. The Manager is like the shift supervisor—it doesn't verify the ID itself, but it knows exactly which specialist to give it to.
 
 ## The Verification Process
 Step 4: Delegating to the Specialist
-The Manager hands the slip to the _**Authentication Providerr**_. The Provider is the actual specialist who knows how to process this specific type of login (e.g., verifying a standard username/password versus verifying a Google OAuth token).
+The Manager hands the slip to the `**Authentication Providerr**`. The Provider is the actual specialist who knows how to process this specific type of login (e.g., verifying a standard username/password versus verifying a Google OAuth token).
 
 Step 5: Checking the Guest List
-The Provider contacts the _**User Details Servicer**_. This service acts as the bridge to your database. It looks up the username to see if the person actually exists in the system and fetches their official record (including their stored, encrypted password and their roles).
+The Provider contacts the `**User Details Servicer**`. This service acts as the bridge to your database. It looks up the username to see if the person actually exists in the system and fetches their official record (including their stored, encrypted password and their roles).
 
 Step 6: Checking the Secret Code
-The Provider now has the password the user just typed, and the encrypted password from the database. It uses the _**Password Encoderr**_ to safely compare them. The Encoder checks if the typed password, when scrambled, matches the database's scrambled password.
+The Provider now has the password the user just typed, and the encrypted password from the database. It uses the `**Password Encoderr**` to safely compare them. The Encoder checks if the typed password, when scrambled, matches the database's scrambled password.
 
 ## The Aftermath
 Step 7: The VIP Badge
@@ -32,7 +32,7 @@ Step 8: Returning to the Front Door
 The Manager gives this official VIP Badge back to the front-door bouncer (the Authentication Filter).
 
 Step 9: Stamping the Hand (Security Context)
-The Filter takes this official badge and stores it in the _**Security Contextr**_. This is a secure area in the application's memory. By placing it here, the app effectively "stamps the user's hand." For every subsequent click or page load, the app will check the Security Context, see the badge, and know the user is already logged in.
+The Filter takes this official badge and stores it in the `**Security Contextr**`. This is a secure area in the application's memory. By placing it here, the app effectively "stamps the user's hand." For every subsequent click or page load, the app will check the Security Context, see the badge, and know the user is already logged in.
 
 Step 10: Welcome In
 Finally, the Filter responds to the user, typically by redirecting them to the dashboard or sending a successful response back to the browser.
