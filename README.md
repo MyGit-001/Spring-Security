@@ -170,6 +170,57 @@ spring.security.user.name = admin
 1. If you wish to create your very own autentication then for that Create a Config file and declare that as a @Configuration
 2. Create an method of FilterChain and set it as @Bean
 
+```Java
+    @Bean
+    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests((requests) -> requests.anyRequest().authenticated());
+        //form authentication
+        http.formLogin(Customizer.withDefaults());
+
+        //Basic authentication
+        http.httpBasic(Customizer.withDefaults());
+        return http.build();
+
+    }
+```
+
+## 1. The Class-Level Annotations
+These annotations tell the Spring framework how to treat this Java class when your application starts up.
+
+**`@Configuration`**: This tells Spring that this class is a source of bean definitions. When the application context loads, Spring will look inside this class, find any methods annotated with @Bean, and execute them to register those objects in the application context.
+
+**`@EnableWebSecurity`**: This is the crucial trigger for Spring Security. It tells Spring to apply your custom security configurations to the global web security setup. It effectively says, "Don't just use the absolute default, invisible security setup; look at the rules I'm defining in this class instead."
+
+## 2. The SecurityFilterChain Bean
+In Spring Security, incoming HTTP requests don't just hit your controllers directly. They pass through a chain of security filters (the "Filter Chain") that check if the request is safe and authorized.
+
+**`@Bean`**: By annotating this method with @Bean, you are creating a custom SecurityFilterChain object and handing it over to Spring to manage.
+
+**`HttpSecurity http`**: This is the builder object provided by Spring. You use it to configure all your web-based security rules (like which URLs are protected, how users log in, etc.).
+
+## 3. The Security Rules (Line-by-Line)
+Inside the method, you are defining the exact rules for how the application should handle incoming traffic. This specific setup is quite strict.
+
+_`http.authorizeHttpRequests((requests) -> requests.anyRequest().authenticated());`_
+
+* This is the authorization rule. It uses a lambda expression to tell Spring Security: "For any HTTP request (anyRequest()) that comes into the application, require the user to be fully logged in (authenticated())."
+
+* In a practical scenario like a contact management system (where users are storing private directories like in EzManager), this ensures that absolutely no one can view, add, or delete contacts without proving who they are first.
+
+_`http.formLogin(Customizer.withDefaults());`_
+
+* This enables form-based authentication. If an unauthenticated user tries to access a protected URL in their web browser, Spring Security will automatically intercept the request and redirect them to a default, auto-generated HTML login page. Customizer.withDefaults() simply applies the standard, out-of-the-box settings for this.
+
+_`http.httpBasic(Customizer.withDefaults());`_
+
+* This enables HTTP Basic authentication. Instead of showing an HTML login page, it allows clients to send their credentials (username and password) directly in the HTTP headers of the request.
+
+* This is essential for REST APIs. If you are testing your endpoints using Postman, or if a separate frontend framework (like React or Angular) is making API calls to your backend, they will use this method to authenticate rather than filling out an HTML form.
+
+_`return http.build();`_
+
+* Finally, this takes all the configurations you just attached to the HttpSecurity builder, constructs the final SecurityFilterChain, and returns it to the Spring context.
+
 <img width="869" height="280" alt="image" src="https://github.com/user-attachments/assets/f85db1a4-443a-4196-a9ac-a8b4ec2296d5" />
 
 This above code can be written in 2 ways, 
