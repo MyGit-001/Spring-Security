@@ -1,5 +1,9 @@
 <img width="1740" height="859" alt="image" src="https://github.com/user-attachments/assets/a04b783c-1247-4495-b964-6d0f0905c171" />
 
+This diagram maps out exactly what happens under the hood when a user tries to log into a Spring Security application.
+
+To make it as simple as possible, think of this process like a guest trying to enter a highly secure VIP club. Here is the step-by-step breakdown matching the numbers in your diagram:
+
 ## Some Basics Before diving into Security aspect
 ### 🍪 Cookies 
 What they are: Small pieces of data stored in your browser by a website. \
