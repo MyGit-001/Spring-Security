@@ -204,17 +204,15 @@ Inside the method, you are defining the exact rules for how the application shou
 _`http.authorizeHttpRequests((requests) -> requests.anyRequest().authenticated());`_
 
 * This is the authorization rule. It uses a lambda expression to tell Spring Security: "For any HTTP request (anyRequest()) that comes into the application, require the user to be fully logged in (authenticated())."
-
 * In a practical scenario like a contact management system (where users are storing private directories like in EzManager), this ensures that absolutely no one can view, add, or delete contacts without proving who they are first.
 
 _`http.formLogin(Customizer.withDefaults());`_
 
-* This enables form-based authentication. If an unauthenticated user tries to access a protected URL in their web browser, Spring Security will automatically intercept the request and redirect them to a default, auto-generated HTML login page. Customizer.withDefaults() simply applies the standard, out-of-the-box settings for this.
+* This enables ⭐**form-based authentication**. If an unauthenticated user tries to access a protected URL in their web browser, Spring Security will automatically intercept the request and redirect them to a default, auto-generated HTML login page. Customizer.withDefaults() simply applies the standard, out-of-the-box settings for this.
 
 _`http.httpBasic(Customizer.withDefaults());`_
 
-* This enables HTTP Basic authentication. Instead of showing an HTML login page, it allows clients to send their credentials (username and password) directly in the HTTP headers of the request.
-
+* This enables ⭐**HTTP Basic authentication**. Instead of showing an HTML login page, it allows clients to send their credentials (username and password) directly in the HTTP headers of the request.
 * This is essential for REST APIs. If you are testing your endpoints using Postman, or if a separate frontend framework (like React or Angular) is making API calls to your backend, they will use this method to authenticate rather than filling out an HTML form.
 
 _`return http.build();`_
@@ -244,5 +242,20 @@ protected void configure(HttpSecurity http) throws Exception {
         .antMatchers("/**").permitAll();
 }
 ```
+``` JAVA
+ @Bean
+    public UserDetailsService userDetailsService(){
+        UserDetails User1 = User.withUsername("User1")
+                                .password("{noop}UserPass")
+                                .roles("USER").build();
+
+        UserDetails Admin = User.withUsername("Admin")
+                                .password("{noop}AdminPass")
+                                .roles("ADMIN").build();
+
+        return new InMemoryUserDetailsManager(User1 , Admin);
+    }
+```  
+⭐**In-memory authentication** is exactly what it sounds like: instead of checking a database to see if a user exists, Spring Security checks a hardcoded list of users stored temporarily in your application's RAM (memory).
 
 
