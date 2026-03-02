@@ -30,7 +30,7 @@ public class SecurityConfig {
     //In-Memory Authentication
     @Bean
     public UserDetailsService userDetailsService(){
-        UserDetails User1 = User.withUsername("User1")
+        UserDetails User1 = User.withUsername("User")
                                 .password("{noop}UserPass")
                                 .roles("USER").build();
 
@@ -40,4 +40,7 @@ public class SecurityConfig {
 
         return new InMemoryUserDetailsManager(User1 , Admin);
     }
+
+    //Role based authentication
+
 }
