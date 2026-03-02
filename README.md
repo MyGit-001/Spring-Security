@@ -166,6 +166,8 @@ spring.security.user.password = Rishi@123
 spring.security.user.name = admin
 ```
 
+
+
 ## What if i want to create a implementing our very own Basic authentication for my endpoints ? 
 1. If you wish to create your very own autentication then for that Create a Config file and declare that as a @Configuration
 2. Create an method of FilterChain and set it as @Bean
@@ -219,29 +221,6 @@ _`return http.build();`_
 
 * Finally, this takes all the configurations you just attached to the HttpSecurity builder, constructs the final SecurityFilterChain, and returns it to the Spring context.
 
-<img width="869" height="280" alt="image" src="https://github.com/user-attachments/assets/f85db1a4-443a-4196-a9ac-a8b4ec2296d5" />
-
-This above code can be written in 2 ways, 
-Either using Lambda DSL introduced in Spring 5,5+ 
-
-```Java
-http.authorizeHttpRequests((authorize) -> authorize endline
-        .requestMatchers("/api/hi").permitAll()
-        .requestMatchers("/api/admin").hasRole("ADMIN")
-        .requestMatchers("/api/otheruser").hasRole("USER")
-        .anyRequest().authenticated()
-    )
-    .httpBasic(Customizer.withDefaults());
-```
-
-Or by using the prev Spring version 3 and 4
-```JAVA
-protected void configure(HttpSecurity http) throws Exception {
-    http.authorizeRequests()
-        .antMatchers("/user/**").hasRole("USER")
-        .antMatchers("/**").permitAll();
-}
-```
 ``` JAVA
  @Bean
     public UserDetailsService userDetailsService(){
@@ -257,5 +236,66 @@ protected void configure(HttpSecurity http) throws Exception {
     }
 ```  
 ⭐**In-memory authentication** is exactly what it sounds like: instead of checking a database to see if a user exists, Spring Security checks a hardcoded list of users stored temporarily in your application's RAM (memory).
+
+```JAVA
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+    // 1. The Filter Chain (From our previous step)
+    @Bean
+    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests((requests) -> requests.anyRequest().authenticated());
+        http.formLogin(Customizer.withDefaults());
+        http.httpBasic(Customizer.withDefaults());
+        return http.build();
+    }
+
+    // 2. The In-Memory User Details Service
+    @Bean
+    public UserDetailsService userDetailsService() {
+        // Creating a standard user
+        UserDetails regularUser = User.builder()
+                .username("user")
+                .password(passwordEncoder().encode("password123"))
+                .roles("USER")
+                .build();
+
+        // Creating an admin user
+        UserDetails adminUser = User.builder()
+                .username("admin")
+                .password(passwordEncoder().encode("admin123"))
+                .roles("ADMIN", "USER")
+                .build();
+
+        // Saving them to memory
+        return new InMemoryUserDetailsManager(regularUser, adminUser);
+    }
+
+    // 3. The Password Encoder
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+}
+```
+
+## 1. How This Works
+`UserDetailsService Bean` By creating a bean of this type, you are telling Spring Security, "Don't bother looking for a default user anymore; use this custom service to find users." \
+`InMemoryUserDetailsManager` This is the actual implementation of the UserDetailsService. You pass your created users into its constructor, and it holds them in a local collection in the RAM. \
+`PasswordEncoder Bean` (Step 6 from your diagram): Spring Security strictly enforces that passwords must not be stored in plain text. Even though we are hardcoding these users in memory, we must encrypt their passwords using  BCryptPasswordEncoder. When someone tries to log in, Spring will hash the password they typed into the form and compare it against these hashed memory values.
+
+## 2. How are we returning InMemoryUserDetailsManager to it?
+This works because of standard Java polymorphism. \
+UserDetailsService is the interface (the generic requirement). \
+InMemoryUserDetailsManager is a concrete class that implements that interface (the specific tool). \
+Because InMemoryUserDetailsManager implements the UserDetailsService interface, it officially is a UserDetailsService. Therefore, returning it perfectly satisfies the method's signature.
+
+Think of it like a method structured like this: public List getNames(). You are allowed to return a new ArrayList() inside that method because an ArrayList implements the List interface. Spring Security asks for a general "user lookup tool," and you are handing it a specific "in-memory user lookup tool." 
+
+## 3. What does new InMemoryUserDetailsManager(...) actually do?
+When you instantiate the InMemoryUserDetailsManager and pass regularUser and adminUser into its constructor, it takes those user objects and stores them internally inside a standard Java HashMap. 
+
+Because this HashMap exists only in the application's RAM, it is incredibly fast but entirely temporary. When a user tries to log in, Spring Security asks this manager to loadUserByUsername("admin"), and the manager simply searches its HashMap for that key and returns the matching user record.
 
 
