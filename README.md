@@ -299,3 +299,29 @@ When you instantiate the InMemoryUserDetailsManager and pass regularUser and adm
 Because this HashMap exists only in the application's RAM, it is incredibly fast but entirely temporary. When a user tries to log in, Spring Security asks this manager to loadUserByUsername("admin"), and the manager simply searches its HashMap for that key and returns the matching user record.
 
 
+## Role Based Authentication
+
+Adding two more endpoints in the controller 
+
+```Java
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/admin")
+    public String userEndpoint(){
+        return "Hello, Admin";
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/user")
+    public String adminEndpoint(){
+        return "Hello, User";
+    }
+```
+
+Admin role
+<img width="1095" height="764" alt="image" src="https://github.com/user-attachments/assets/db3f7388-4db8-4228-b75b-e14ac69dd224" />
+
+User Role
+<img width="1107" height="720" alt="image" src="https://github.com/user-attachments/assets/8451e0a0-0e45-4289-874c-2b7e4281f2d1" />
+
+
+
