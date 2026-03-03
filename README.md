@@ -301,7 +301,9 @@ Because this HashMap exists only in the application's RAM, it is incredibly fast
 
 ## Role Based Authentication
 
-Adding two more endpoints in the controller 
+Adding two more endpoints in the controller \
+Requests with '/admin'  should be having ADMIN role, if the inputted cred are of ADMIN, then the user can access admin role. \
+Requests with '/User' should be having USER role, if the inputted cred are of USER, then the user can access user role. 
 
 ```Java
     @PreAuthorize("hasRole('ADMIN')")
@@ -317,11 +319,12 @@ Adding two more endpoints in the controller
     }
 ```
 
-Admin role
-<img width="1095" height="764" alt="image" src="https://github.com/user-attachments/assets/db3f7388-4db8-4228-b75b-e14ac69dd224" />
+### Admin role
+<img width="795" height="464" alt="image" src="https://github.com/user-attachments/assets/db3f7388-4db8-4228-b75b-e14ac69dd224" />
 
-User Role
-<img width="1107" height="720" alt="image" src="https://github.com/user-attachments/assets/8451e0a0-0e45-4289-874c-2b7e4281f2d1" />
+
+### User Role
+<img width="795" height="464" alt="image" src="https://github.com/user-attachments/assets/8451e0a0-0e45-4289-874c-2b7e4281f2d1" />
 
 
 
