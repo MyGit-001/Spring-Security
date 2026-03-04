@@ -281,9 +281,9 @@ public class SecurityConfig {
 ```
 
 ## 1. How This Works
-`UserDetailsService Bean` By creating a bean of this type, you are telling Spring Security, "Don't bother looking for a default user anymore; use this custom service to find users." \
-`InMemoryUserDetailsManager` This is the actual implementation of the UserDetailsService. You pass your created users into its constructor, and it holds them in a local collection in the RAM. \
-`PasswordEncoder Bean` (Step 6 from your diagram): Spring Security strictly enforces that passwords must not be stored in plain text. Even though we are hardcoding these users in memory, we must encrypt their passwords using  BCryptPasswordEncoder. When someone tries to log in, Spring will hash the password they typed into the form and compare it against these hashed memory values.
+* `UserDetailsService Bean` By creating a bean of this type, you are telling Spring Security, "Don't bother looking for a default user anymore; use this custom service to find users." \
+* `InMemoryUserDetailsManager` This is the actual implementation of the UserDetailsService. You pass your created users into its constructor, and it holds them in a local collection in the RAM. \
+* `PasswordEncoder Bean` (Step 6 from your diagram): Spring Security strictly enforces that passwords must not be stored in plain text. Even though we are hardcoding these users in memory, we must encrypt their passwords using  BCryptPasswordEncoder. When someone tries to log in, Spring will hash the password they typed into the form and compare it against these hashed memory values.
 
 ## 2. How are we returning InMemoryUserDetailsManager to it?
 This works because of standard Java polymorphism. \
