@@ -302,8 +302,8 @@ Because this HashMap exists only in the application's RAM, it is incredibly fast
 ## Role Based Authentication
 
 Adding two more endpoints in the controller \
-Requests with '/admin'  should be having ADMIN role, if the inputted cred are of ADMIN, then the user can access admin role. \
-Requests with '/User' should be having USER role, if the inputted cred are of USER, then the user can access user role. 
+* Requests with '/admin'  should be having ADMIN role, if the inputted cred are of ADMIN, then the user can access admin role. \
+* Requests with '/User' should be having USER role, if the inputted cred are of USER, then the user can access user role. 
 
 ```Java
     @PreAuthorize("hasRole('ADMIN')")
