@@ -235,7 +235,7 @@ _`return http.build();`_
         return new InMemoryUserDetailsManager(User1 , Admin);
     }
 ```  
-⭐**In-memory authentication** is exactly what it sounds like: instead of checking a database to see if a user exists, Spring Security checks a hardcoded list of users stored temporarily in your application's RAM (memory).
+⭐**In-memory authentication** is exactly what it sounds like: instead of checking a database to see if a user exists, Spring Security checks a `hardcoded list of users` stored temporarily in your application's RAM (memory). **{Not recommended for production applications}**
 
 ```JAVA
 @Configuration
